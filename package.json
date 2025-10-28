@@ -1,0 +1,30 @@
+{
+  "name": "awd-book-challenge",
+  "version": "1.0.0",
+  "description": "The customer is a library focused on IT books in the fictitious city of Foobar town. The library wants to make its books available online to give customers the possibility to save their favorite books in a list. It is your task to create this app for the customer.",
+  "homepage": "https://github.com/ShawnGB/awd-book-challenge#readme",
+  "bugs": {
+    "url": "https://github.com/ShawnGB/awd-book-challenge/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShawnGB/awd-book-challenge.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "build:watch": "tsc -w --preserveWatchOutput",
+    "serve": "live-server --port=5173 --open=src/index.html --watch=dist,src,index.html",
+    "dev": "concurrently -n tsc,web -c blue,green \"npm:build:watch\" \"npm:serve\"",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.1",
+    "concurrently": "^9.2.1",
+    "live-server": "^1.2.2",
+    "nodemon": "^3.1.10",
+    "typescript": "^5.9.3"
+  }
+}
