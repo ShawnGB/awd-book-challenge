@@ -15,16 +15,12 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "build:watch": "tsc -w --preserveWatchOutput",
-    "serve": "live-server --port=5173 --open=src/index.html --watch=dist,src,index.html",
-    "dev": "concurrently -n tsc,web -c blue,green \"npm:build:watch\" \"npm:serve\"",
-    "start": "npm run dev"
+    "dev": "concurrently \"tsc -w\" \"live-server src --port=5173 --open\" \"npx bookmonkey-api\""
   },
   "devDependencies": {
     "@types/node": "^24.9.1",
     "concurrently": "^9.2.1",
     "live-server": "^1.2.2",
-    "nodemon": "^3.1.10",
     "typescript": "^5.9.3"
   }
 }
