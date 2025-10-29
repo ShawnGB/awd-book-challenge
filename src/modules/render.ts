@@ -1,10 +1,18 @@
 const tbody = document.querySelector("tbody") as HTMLTableSectionElement;
 
-let bookcounter: number = 0;
+const updateDisplayedBookCount = (count: number): void => {
+  const bookCountHeading = document.getElementById(
+    "book-count-heading",
+  ) as HTMLHeadingElement;
+
+  if (bookCountHeading) {
+    bookCountHeading.textContent = `${count} Book${count !== 1 ? "s" : ""} displayed`;
+  }
+};
 
 const renderTable = (books: Book[]): void => {
   if (!tbody) return;
-  bookcounter = books.length;
+  updateDisplayedBookCount(books.length);
   tbody.innerHTML = books
     .map(
       (book: Book): string => `<tr>
