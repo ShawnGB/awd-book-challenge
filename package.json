@@ -15,7 +15,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"tsc -w\" \"live-server --port=5173 --open=src/index.html\" \"npx bookmonkey-api\""
+    "dev": "concurrently \"tsc -w\" \"live-server --port=5173 --open=src/index.html --ignore=.git/\" \"npx bookmonkey-api\""
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
