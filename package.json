@@ -12,13 +12,12 @@
   },
   "license": "ISC",
   "author": "",
-  "type": "commonjs",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"tsc -w\" \"live-server src --port=5173 --open\" \"npx bookmonkey-api\""
   },
   "devDependencies": {
-    "@types/node": "^24.9.1",
     "concurrently": "^9.2.1",
     "live-server": "^1.2.2",
     "typescript": "^5.9.3"
