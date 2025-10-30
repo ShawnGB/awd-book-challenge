@@ -1,5 +1,5 @@
 import { getBooks, searchBooks } from "./modules/api.js";
-import { renderTable } from "./modules/render.js";
+import { renderTable, updateFavoritesCount } from "./modules/render.js";
 
 let books: Book[] = [];
 
@@ -31,6 +31,7 @@ const init = async (): Promise<void> => {
   try {
     books = await getBooks();
     renderTable(books);
+    updateFavoritesCount();
   } catch (error) {
     console.log(error);
   }

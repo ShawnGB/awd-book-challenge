@@ -1,3 +1,10 @@
+import {
+  getFavorites,
+  isFavorite,
+  addToFavorites,
+  removeFromFavorites,
+} from "./favorites.js";
+
 const tbody = document.querySelector("tbody") as HTMLTableSectionElement;
 
 const updateDisplayedBookCount = (count: number): void => {
@@ -6,7 +13,18 @@ const updateDisplayedBookCount = (count: number): void => {
   ) as HTMLHeadingElement;
 
   if (bookCountHeading) {
-    bookCountHeading.textContent = `${count} Book${count !== 1 ? "s" : ""} displayed`;
+    bookCountHeading.textContent = `${count} Book${
+      count !== 1 ? "s" : ""
+    } displayed`;
+  }
+};
+
+const updateFavoritesCount = (): void => {
+  const favoritesCount = document.querySelector(
+    ".mainnav-number",
+  ) as HTMLSpanElement;
+  if (favoritesCount) {
+    favoritesCount.textContent = getFavorites().length.toString();
   }
 };
 
@@ -14,13 +32,14 @@ const renderTable = (books: Book[]): void => {
   if (!tbody) return;
   updateDisplayedBookCount(books.length);
   tbody.innerHTML = books
-    .map(
-      (book: Book): string => `<tr>
+    .map((book: Book): string => {
+      const isBookFavorite = isFavorite(book.isbn);
+      return `<tr>
 <td>
-    <button class="button button-clear fav-btn">
+    <button class="button button-clear fav-btn" data-isbn="${book.isbn}">
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            fill="none"
+            fill="${isBookFavorite ? "currentColor" : "none"}"
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
@@ -39,13 +58,47 @@ const renderTable = (books: Book[]): void => {
 <td>${book.author}</td>
 <td>${book.publisher}</td>
 <td>
-    <button class="button" onclick="location.href='detail.html?isbn=${book.isbn}'">
+    <button class="button" onclick="location.href='detail.html?isbn=${
+      book.isbn
+    }'">
         Detail
     </button>
 </td>
-</tr>`,
-    )
+</tr>`;
+    })
     .join("");
+
+  const favBtns = document.querySelectorAll(".fav-btn");
+  favBtns.forEach((btn) => {
+    btn.addEventListener("click", handleFavoriteButtonClick);
+  });
+  updateFavoritesCount();
+};
+
+const handleFavoriteButtonClick = (event: Event): void => {
+  const button = event.currentTarget as HTMLButtonElement;
+  const isbn = button.dataset.isbn;
+  const svg = button.querySelector("svg");
+
+  if (isbn && svg) {
+    if (isFavorite(isbn)) {
+      removeFromFavorites(isbn);
+      svg.setAttribute("fill", "none");
+      if (window.location.pathname.endsWith("favorite.html")) {
+        const row = button.closest("tr");
+        if (row) {
+          row.remove();
+          const currentBookCount =
+            document.querySelectorAll("tbody tr").length;
+          updateDisplayedBookCount(currentBookCount);
+        }
+      }
+    } else {
+      addToFavorites(isbn);
+      svg.setAttribute("fill", "currentColor");
+    }
+    updateFavoritesCount();
+  }
 };
 
 const renderBookDetails = (book: Book): void => {
@@ -83,4 +136,4 @@ const renderBookDetails = (book: Book): void => {
   `;
 };
 
-export { renderTable, renderBookDetails };
+export { renderTable, renderBookDetails, updateFavoritesCount };

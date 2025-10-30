@@ -1,5 +1,5 @@
 import { getBook } from "./modules/api.js";
-import { renderBookDetails } from "./modules/render.js";
+import { renderBookDetails, updateFavoritesCount } from "./modules/render.js";
 
 const init = async (): Promise<void> => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -21,6 +21,7 @@ const init = async (): Promise<void> => {
       main.innerHTML = "<h1>No book ISBN provided</h1>";
     }
   }
+  updateFavoritesCount();
 };
 
 init();
